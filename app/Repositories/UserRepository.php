@@ -175,17 +175,36 @@ class UserRepository
         return response()->json($data, $data['code']);
     }
 
-    public function upload($image): \Illuminate\Http\JsonResponse
+    public function upload($request): \Illuminate\Http\JsonResponse
     {
-        if ($image) {
-            $image_name = time() . " - " . $image->getClientOriginalName();
-            Storage::disk('users')->put($image_name, File::get($image));
+        $image = $request->file('file0');
 
-            $data = array(
-                'status' => 'success',
-                'code' => 200,
-                'image' => $image_name
-            );
+        if ($image) {
+
+            $validate = Validator::make($request->all(), [
+                'file0' => ['required', 'image', 'mimes:jpg,jpeg,png,gif']
+            ]);
+
+            if (!$validate->fails()) {
+
+                $image_name = time() . " - " . $image->getClientOriginalName();
+                Storage::disk('users')->put($image_name, File::get($image));
+
+                $data = array(
+                    'status' => 'success',
+                    'code' => 200,
+                    'image' => $image_name
+                );
+
+            } else {
+                $data = array(
+                    'status' => 'error',
+                    'code' => 400,
+                    'message' => 'Error loading image',
+                    'errors' => $validate->errors()
+                );
+            }
+
         } else {
             $data = array(
                 'status' => 'error',
