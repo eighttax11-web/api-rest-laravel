@@ -24,4 +24,6 @@ Route::apiResource('posts', PostController::class);
 
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
+Route::put('user/update', [UserController::class, 'update']);
+
 

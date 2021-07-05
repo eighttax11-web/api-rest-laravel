@@ -21,8 +21,16 @@ class UserController extends Controller
         return $this->user->register($json);
     }
 
-    public function login(Request $request)
+    public function login(Request $request): \Illuminate\Http\JsonResponse
     {
+        $json = $request->input('json', null);
+        return $this->user->login($json);
+    }
 
+    public function update(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $token = $request->header('Authorization');
+        $json = $request->input('json', null);
+        return $this->user->update($token, $json);
     }
 }
