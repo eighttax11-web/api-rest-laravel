@@ -36,7 +36,11 @@ class UserController extends Controller
 
     public function upload(Request $request): \Illuminate\Http\JsonResponse
     {
-
         return $this->user->upload($request);
+    }
+
+    public function getImage($filename)
+    {
+        return $this->user->getImage($filename);
     }
 }

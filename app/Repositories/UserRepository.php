@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Helpers\JwtAuth;
 use App\Models\User;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -187,7 +189,7 @@ class UserRepository
 
             if (!$validate->fails()) {
 
-                $image_name = time() . " - " . $image->getClientOriginalName();
+                $image_name = time() . "_" . $image->getClientOriginalName();
                 Storage::disk('users')->put($image_name, File::get($image));
 
                 $data = array(
@@ -214,5 +216,21 @@ class UserRepository
         }
 
         return response()->json($data, $data['code']);
+    }
+
+    public function getImage($filename)
+    {
+        try {
+            $file = Storage::disk('users')->get($filename);
+            return new Response($file, 200);
+        } catch (FileNotFoundException $e) {
+            $data = array(
+                'status' => 'error',
+                'code' => 404,
+                'message' => 'Image not found'
+            );
+
+            return response()->json($data, $data['code']);
+        }
     }
 }
