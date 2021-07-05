@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Helpers\JwtAuth;
 use App\Models\User;
+use Exception;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;
@@ -232,5 +233,26 @@ class UserRepository
 
             return response()->json($data, $data['code']);
         }
+    }
+
+    public function detail($id): \Illuminate\Http\JsonResponse
+    {
+        $user = User::find($id);
+
+        if (is_object($user)) {
+            $data = array(
+                'status' => 'success',
+                'code' => 200,
+                'user' => $user
+            );
+        } else {
+            $data = array(
+                'status' => 'error',
+                'code' => 404,
+                'message' => 'User not found'
+            );
+        }
+
+        return response()->json($data, $data['code']);
     }
 }

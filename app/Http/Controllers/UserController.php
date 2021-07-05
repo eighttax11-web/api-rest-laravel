@@ -43,4 +43,9 @@ class UserController extends Controller
     {
         return $this->user->getImage($filename);
     }
+
+    public function detail($id): \Illuminate\Http\JsonResponse
+    {
+        return $this->user->detail($id);
+    }
 }
