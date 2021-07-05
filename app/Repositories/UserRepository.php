@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Helpers\JwtAuth;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserRepository
@@ -173,13 +175,24 @@ class UserRepository
         return response()->json($data, $data['code']);
     }
 
-    public function upload(): \Illuminate\Http\JsonResponse
+    public function upload($image): \Illuminate\Http\JsonResponse
     {
-        $data = array(
-            'status' => 'error',
-            'code' => 400,
-            'message' => 'Error loading image'
-        );
+        if ($image) {
+            $image_name = time() . " - " . $image->getClientOriginalName();
+            Storage::disk('users')->put($image_name, File::get($image));
+
+            $data = array(
+                'status' => 'success',
+                'code' => 200,
+                'image' => $image_name
+            );
+        } else {
+            $data = array(
+                'status' => 'error',
+                'code' => 400,
+                'message' => 'Error loading image'
+            );
+        }
 
         return response()->json($data, $data['code']);
     }
