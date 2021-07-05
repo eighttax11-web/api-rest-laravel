@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\ApiAuthMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,5 +26,6 @@ Route::apiResource('posts', PostController::class);
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
 Route::put('user/update', [UserController::class, 'update']);
+Route::post('user/upload', [UserController::class, 'upload'])->middleware(ApiAuthMiddleware::class);
 
 

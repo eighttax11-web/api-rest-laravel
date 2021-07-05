@@ -172,4 +172,15 @@ class UserRepository
 
         return response()->json($data, $data['code']);
     }
+
+    public function upload(): \Illuminate\Http\JsonResponse
+    {
+        $data = array(
+            'status' => 'error',
+            'code' => 400,
+            'message' => 'Error loading image'
+        );
+
+        return response()->json($data, $data['code']);
+    }
 }

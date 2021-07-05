@@ -33,4 +33,9 @@ class UserController extends Controller
         $json = $request->input('json', null);
         return $this->user->update($token, $json);
     }
+
+    public function upload(Request $request): \Illuminate\Http\JsonResponse
+    {
+        return $this->user->upload();
+    }
 }
