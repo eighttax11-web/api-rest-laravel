@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Helpers\JwtAuth;
 use App\Models\User;
-use Exception;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;

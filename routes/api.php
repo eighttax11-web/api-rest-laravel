@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\ApiAuthMiddleware;
 
@@ -22,13 +23,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('posts', PostController::class);
+Route::apiResource('categories', CategoryController::class);
 
-Route::post('register', [UserController::class, 'register']);
-Route::post('login', [UserController::class, 'login']);
-Route::put('user/update', [UserController::class, 'update']);
-Route::post('user/upload', [UserController::class, 'upload'])->middleware(ApiAuthMiddleware::class);
+/* USERS MODULE */
 Route::get('user/avatar/{filename}', [UserController::class, 'getImage']);
 Route::get('user/detail/{id}', [UserController::class, 'detail']);
+Route::post('register', [UserController::class, 'register']);
+Route::post('login', [UserController::class, 'login']);
+Route::post('user/upload', [UserController::class, 'upload'])->middleware(ApiAuthMiddleware::class);
+Route::put('user/update', [UserController::class, 'update']);
+
+
 
 
 
