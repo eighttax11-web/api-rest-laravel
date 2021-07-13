@@ -108,7 +108,7 @@ class CategoryRepository
 
                 if (is_object($category)) {
 
-                    $category = Category::where('id', $id)->update($params_array);
+                    $category->update($params_array);
 
                     $data = [
                         'status' => 'success',

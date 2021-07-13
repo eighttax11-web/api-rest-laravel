@@ -23,6 +23,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('posts', PostController::class);
+Route::post('posts/upload', [PostController::class, 'upload']);
+Route::get('posts/image/{filename}', [PostController::class, 'getImage']);
+Route::get('posts/category/{id}', [PostController::class, 'getPostsByCategory']);
+Route::get('posts/user/{id}', [PostController::class, 'getPostsByUser']);
+
+
+
 Route::apiResource('categories', CategoryController::class);
 
 /* USERS MODULE */
